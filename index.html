@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - adr-text-helper</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Formatter</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #inputContainer, #outputContainer {
+      flex: 1;
+      padding: 20px;
+    }
+
+    #inputArea {
+      width: 100%;
+      height: 300px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    #outputArea {
+      width: 100%;
+      height: 300px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: auto;
+      resize: vertical;
+    }
+
+    #clearButton, #copyButton {
+      margin-top: 10px;
+      padding: 8px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #alertBox {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 4px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div id="inputContainer">
+    <textarea id="inputArea" placeholder="Type your text here..."></textarea>
+    <button id="clearButton" onclick="clearInput()">清除文字</button>
+  </div>
+  <div id="outputContainer">
+    <div id="outputArea"></div>
+    <button id="copyButton" onclick="copyText()">複製文字</button>
+  </div>
+
+  <div id="alertBox"></div>
+
+  <script>
+    const inputArea = document.getElementById('inputArea');
+    const outputArea = document.getElementById('outputArea');
+    const copyButton = document.getElementById('copyButton');
+    const clearButton = document.getElementById('clearButton');
+    const alertBox = document.getElementById('alertBox');
+
+    inputArea.addEventListener('input', updateOutput);
+
+    function updateOutput() {
+      const inputText = inputArea.value;
+      const formattedText = processText(inputText);
+
+      outputArea.innerText = formattedText;
+    }
+
+    function processText(text) {
+      let lines = text.split('\n');
+
+      for (let i = 0; i < lines.length; i++) {
+        const colonIndex = lines[i].indexOf(': ');
+        if (colonIndex !== -1) {
+          lines[i] = lines[i].substring(colonIndex + 2).trim();
+        }
+      }
+
+      let modifiedLine = lines.map(line => line.trim()).join(', ');
+
+      modifiedLine = modifiedLine.replace(', Serious, ', '\nSerious: ');
+      modifiedLine = modifiedLine.replace('Common, ', 'Common: ');
+      modifiedLine = modifiedLine.replace(/%\s*to\s*/g, '-');
+      modifiedLine = modifiedLine.replace('% )', '%)');
+
+      return modifiedLine;
+    }
+
+    function copyText() {
+      const textToCopy = outputArea.innerText;
+
+      const textarea = document.createElement('textarea');
+      textarea.value = textToCopy;
+
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+
+      showAlert('Text copied to clipboard!', 1000); // Show alert for 1 second
+    }
+
+    function showAlert(message, duration) {
+      alertBox.innerText = message;
+      alertBox.style.display = 'block';
+
+      setTimeout(function() {
+        // Automatically close the alert after the specified duration
+        alertBox.style.display = 'none';
+      }, duration);
+    }
+
+    function clearInput() {
+      inputArea.value = '';
+      updateOutput(); // To clear the output when the input is cleared
+    }
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
