@@ -111,7 +111,7 @@
       modifiedLine = modifiedLine.replace(', Serious, ', '\nSerious: ');
       modifiedLine = modifiedLine.replace('Common, ', 'Common: ');
       modifiedLine = modifiedLine.replace(/%\s*to\s*/g, '-');
-      modifiedLine = modifiedLine.replace(/%\s*)/g, '%)');
+      modifiedLine = modifiedLine.replace(/% )/g, '%)');
       modifiedLine = modifiedLine.replace('Serious, ', 'Serious: ');
 
       return modifiedLine;
