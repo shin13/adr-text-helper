@@ -113,6 +113,8 @@
       modifiedLine = modifiedLine.replace(/%\s*to\s*/g, '-');
       modifiedLine = modifiedLine.replace('Serious, ', 'Serious: ');
       modifiedLine = modifiedLine.replaceAll(' )', ')');  // Replace all instances
+      modifiedLine = modifiedLine.replace(/less than/g, '<');
+      modifiedLine = modifiedLine.replace(/greater than/g, '>');
 
       return modifiedLine;
     }
