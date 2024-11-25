@@ -122,14 +122,19 @@
 
       let modifiedLine = lines.map(line => line.trim()).join(', ');
 
-      modifiedLine = modifiedLine.replace(', Serious, ', '\nSerious: ');
+      modifiedLine = modifiedLine.replace(', Serious, ', '. \n\nSerious: ');
       modifiedLine = modifiedLine.replace('Common, ', 'Common: ');
       modifiedLine = modifiedLine.replace(/%\s*to\s*/g, '-');
       modifiedLine = modifiedLine.replace('Serious, ', 'Serious: ');
       modifiedLine = modifiedLine.replaceAll(' )', ')');  // Replace all instances
       modifiedLine = modifiedLine.replace(/less than /gi, '<'); // gi flag for case-insensitive replacement
       modifiedLine = modifiedLine.replace(/greater than /gi, '>'); // gi flag for case-insensitive replacement
-
+      
+      // Add ". " at the end if it's not an empty string
+      if (modifiedLine.trim() !== '') {
+        modifiedLine += '. ';
+      }
+      
       return modifiedLine;
     }
 
